@@ -45,6 +45,9 @@ servoHolderHeight = 6; // výška otvoru pro držák serva (5)
 servoHolesDistance = 29.4; // vzdálenost otvorů pro upevňovací šrouby
 servoScrewDiameter = 1; // průměr otvoru pro upevňovací šrouby
 
+servoHolderMaskDepth = 2; // hloubka otvoru pro držák
+servoHolderMaskWidth = 7.1;
+servoHolderMaskHeight = 32.1;
 
 // ---------------------------------------------------------
 // závislé hodnoty
@@ -60,11 +63,13 @@ $fn=100;
 // main program
 
 //sensorBoard();
-// servoHolderAdapter();
-// servoHole();
+rotate([0,0,90])rotate([0,180,0])servoHolderAdapter();
+//servoHole();
 //servoScrewHoles();
 
-fullHolder();
+//fullHolder();
+
+//image();
 
 // ------------------------------------------------------------------
 // modules
@@ -97,16 +102,19 @@ module servoHolderAdapter() {
     y = sensorBoardWidth+2*sensorBoardRim;
     z = servoHolderThickness;
 
+
     color([0,1,0])
-    difference() {
+    // difference() {
         difference() {
             servoBoard();
-            translate([x/2,y/2,-servoHolderDepthDelta])
-            servoHole();
+            // translate([x/2,y/2,-servoHolderDepthDelta])
+            // servoHole();
+            translate([x/2,y/2,0])
+            image();
         }
-        translate([x/2,y/2,-servoHolderDepthDelta])
-        servoScrewHoles();
-    }
+    //     translate([x/2,y/2,-servoHolderDepthDelta])
+    //     servoScrewHoles();
+    // }
 }
 
 module servoBoard() {
@@ -195,6 +203,22 @@ module screwBox() {
         translate([sensorScrewBox/2,sensorScrewBox/2,-sensorBoardDistance])
         cylinder(d=sensorHoleDiameter,h=3*sensorBoardDistance);
     }
+}
+
+// --------------------------------------------------------
+// image
+
+module image() {
+    //name="drzak-servo-maska.png";
+    name="drzak-servo-maska-mala.png";
+    
+    w = servoHolderMaskWidth;
+    h = servoHolderMaskHeight;
+    z = servoHolderMaskDepth*2;
+
+    translate([-w/2,-h/2,z/2])
+    resize([w,h,z])
+    surface(file=name, invert=true);
 }
 
 // ------------------------------------------------------------------
