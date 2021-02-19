@@ -22,7 +22,8 @@ sensorBoardWidth = 45.5; // šířka desky
 sensorBoardHeight = 20.5; // výška desky
 
 sensorBoardDistance = 4; // nutná vzdálenost desky od přední plochy (jsou tam součástky)
-sensorBoardThickness = 3; // tloušťka desky s čidlem
+sensorHolderBoardThickness = 3; // tloušťka přední plochy s čidlem
+sensorBoardThickness = 3; // tloušťka tištěného spoje s čidlem + rezerva nad ní
 sensorBoardRimVertical = 2; // přesah rámečku nahoře a dole
 sensorBoardRimHoritonal = 2; // přesah rámečku do stran
 sensorBoardRimDistance = 0.3; // stranová vzdálenost desky od rámečku
@@ -56,6 +57,11 @@ servoHolderMaskHeight = 32.1;
 // ---------------------------------------------------------
 // závislé hodnoty
 
+//servoBoardWidth = sensorBoardHeight+2*sensorBoardRimVertical;
+servoBoardWidth = sensorHolderBoardThickness 
+                   + sensorBoardDistance
+                   + sensorBoardThickness;
+
 sensorScrewBoxHorizontal = sensorBoardRimHoritonal + 2*sensorHoleDistance;
 sensorScrewBoxVertical = sensorBoardRimVertical + 2*sensorHoleDistance;
 sensorDistance = sensorCenterDistance - sensorDiameter; // vzdálenost krajů čidel
@@ -72,11 +78,20 @@ $fn=100;
 //servoHole();
 //servoScrewHoles();
 
-//rotate([0,0,90])rotate([0,180,0])servoHolderAdapter();
-//rotate([0,0,90])rotate([0,180,0])
-sensorBoard();
-// fullHolder();
+// ---------------------------------------
+// samostatný držák servo
 
+//rotate([0,0,-90])rotate([0,180,0])translate([0,0,-servoHolderThickness])servoHolderAdapter();
+
+// ---------------------------------------
+// samostatné čidlo
+
+//sensorBoard();
+
+// ---------------------------------------
+// dohromady
+
+fullHolder();
 
 // ------------------------------------------------------------------
 // modules
@@ -86,7 +101,7 @@ module fullHolder() {
     y = sensorBoardWidth+2*sensorBoardRimHoritonal;
     z = x+servoHolderThickness;
 
-    delta = sensorBoardThickness+sensorBoardDistance;
+    delta = sensorHolderBoardThickness+sensorBoardDistance;
 
     // intersection() {
         union() {
@@ -105,7 +120,7 @@ module fullHolder() {
 // -----------------------------------
 
 module servoHolderAdapter() {
-    x = sensorBoardHeight+2*sensorBoardRimVertical;
+    x = servoBoardWidth;
     y = sensorBoardWidth+2*sensorBoardRimHoritonal;
     z = servoHolderThickness;
 
@@ -125,7 +140,7 @@ module servoHolderAdapter() {
 }
 
 module servoBoard() {
-    x = sensorBoardHeight+2*sensorBoardRimVertical;
+    x = servoBoardWidth;
     y = sensorBoardWidth+2*sensorBoardRimHoritonal;
     z = servoHolderThickness;
 
@@ -169,53 +184,65 @@ module servoScrewHoles() {
 module sensorBoard() {
     x = sensorBoardHeight+2*sensorBoardRimVertical;
     y = sensorBoardWidth+2*sensorBoardRimHoritonal;
-    z = sensorBoardThickness;
+    z = sensorHolderBoardThickness;
     margin = (y-sensorDistance-sensorDiameter)/2;
     rim = sensorBoardDistance + sensorBoardThickness;
 
     x2 = sensorBoardHeight + 2*sensorBoardRimDistance;
     y2 = sensorBoardWidth + 2*sensorBoardRimDistance;
 
+    height = 2*sensorBoardHeight;
+    thick = 3*sensorBoardRimVertical;
+
     color([1,0,0])
-    union() {
-        difference(){
+    // difference(){
+        union() {
             difference(){
-                union() {
-                    cube([x,y,z]);
-                    screwBoxes(x,y);
+                difference(){
+                    union() {
+                        cube([x,y,z]);
+                        screwBoxes(x,y);
+                    }
+                    screwHoles(x,y);
                 }
-                screwHoles(x,y);
+                translate([x/2,0,0])
+                union() {
+                    translate([0, margin, 0])
+                    sensorHole();
+                    translate([0, y-margin, 0])
+                    sensorHole();
+                }
             }
-            translate([x/2,0,0])
-            union() {
-                translate([0, margin, 0])
-                sensorHole();
-                translate([0, y-margin, 0])
-                sensorHole();
+
+            color([0,0,1])
+            difference() {
+                translate([0, 0, z])cube([x,y,rim]);
+                translate([
+                    sensorBoardRimVertical-sensorBoardRimDistance, 
+                    sensorBoardRimHoritonal-sensorBoardRimDistance, 
+                    z-0.1])
+                cube([x2,y2,2*rim]);
             }
         }
 
-        color([0,0,1])
-        difference() {
-            translate([0, 0, z])cube([x,y,rim]);
-            translate([
-                sensorBoardRimVertical-sensorBoardRimDistance, 
-                sensorBoardRimHoritonal-sensorBoardRimDistance, 
-                z-0.1])
-            cube([x2,y2,2*rim]);
-        }
-    }
+           // konektor        
+    //     color([0,0,1])
+    //     translate([-x/2,y/2,rim])
+    //     translate([-height/2,-sensorConnectorWidth/2,0])
+    //     cube([height,sensorConnectorWidth,thick]);
+    // }
+
 }
 
 module sensorHole() {
-    z = sensorBoardDistance+sensorBoardThickness;
+    z = sensorBoardDistance+sensorHolderBoardThickness;
     translate([0,0,-z])
     cylinder(d=sensorDiameter,h=3*z);
 
 }
 
 module screwBoxes(x,y) {
-    translate([0,0,sensorBoardThickness])
+    translate([0,0,sensorHolderBoardThickness])
     union() {
         screwBox(1,1);
         translate([x-sensorScrewBoxVertical,0,0])
@@ -241,7 +268,7 @@ module screwBox(left,top) {
 }
 
 module screwHoles(x,y) {
-    translate([0,0,sensorBoardThickness])
+    translate([0,0,sensorHolderBoardThickness])
     union() {
         screwHole(1,1);
         translate([x-sensorScrewBoxVertical,0,0])
@@ -264,7 +291,7 @@ module screwHole(left,top) {
     x = top*xTop + (1-top)*xBottom;
 
 
-    translate([x,y,-sensorScrewHeadHeight-sensorBoardThickness])
+    translate([x,y,-sensorScrewHeadHeight-sensorHolderBoardThickness])
     union() {
         cylinder(d=sensorScrewHeadDiameter,h=2*sensorScrewHeadHeight);
         cylinder(d=sensorHoleDiameter,h=3*sensorBoardDistance);
