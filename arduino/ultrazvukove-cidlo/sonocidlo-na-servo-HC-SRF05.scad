@@ -16,10 +16,13 @@
 // ---------------------------------------------------------
 // nastavení velikosti sono čidla
 
-sensorDiameter = 16.5; // průměr otvoru na jedno sono čidlo
-sensorCenterDistance = 23.6; // vzdálenost středů čidel
-sensorBoardWidth = 45.5; // šířka desky
+sensorBoardWidth = 45.3; // šířka desky
 sensorBoardHeight = 20.5; // výška desky
+sensorDiameter = 17; // průměr otvoru na jedno sono čidlo
+sensorCenterDistance = 24.6; // vzdálenost středů čidel
+sensorTopDistance = 3.3;
+sensorBottomDistance = 1.7;
+sensorVerticalDelta = sensorTopDistance-sensorBottomDistance;
 
 sensorBoardDistance = 4; // nutná vzdálenost desky od přední plochy (jsou tam součástky)
 sensorHolderBoardThickness = 3; // tloušťka přední plochy s čidlem
@@ -31,7 +34,7 @@ sensorBoardRimDistance = 0.3; // stranová vzdálenost desky od rámečku
 sensorHoleDiameter = 2; // průměr otvoru na šroub
 sensorScrewHeadDiameter = 3.2; // průměr otvoru na hlavičku šroubu
 sensorScrewHeadHeight = 1.5; // výška hlavičky šroubu
-sensorHoleDistance = 1.5; // vzdálenost středu otvoru na šroub od kraje desky
+sensorHoleDistance = 2; // vzdálenost středu otvoru na šroub od kraje desky
 
 sensorConnectorWidth = 11; // šířka konektoru
 
@@ -81,12 +84,12 @@ $fn=100;
 // ---------------------------------------
 // samostatný držák servo
 
-rotate([0,0,-90])rotate([0,180,0])translate([0,0,-servoHolderThickness])servoHolderAdapter();
+//rotate([0,0,-90])rotate([0,180,0])translate([0,0,-servoHolderThickness])servoHolderAdapter();
 
 // ---------------------------------------
 // samostatné čidlo
 
-//sensorBoard();
+sensorBoard();
 
 // ---------------------------------------
 // dohromady
@@ -205,7 +208,7 @@ module sensorBoard() {
                     }
                     screwHoles(x,y);
                 }
-                translate([x/2,0,0])
+                translate([(x-sensorVerticalDelta)/2,0,0])
                 union() {
                     translate([0, margin, 0])
                     sensorHole();
