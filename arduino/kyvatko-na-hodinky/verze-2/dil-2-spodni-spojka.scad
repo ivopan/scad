@@ -48,6 +48,14 @@ show() {
 // ------------------------------------------------------------------
 // moduly
 
+module dil_2() {
+    rotate([180,0,0])
+    union() {
+        part3_4();
+        part5();
+    }
+}
+
 module
 part3_4(thickness = tloustka_sten, deepening = hloubka_zahloubeni)
 {

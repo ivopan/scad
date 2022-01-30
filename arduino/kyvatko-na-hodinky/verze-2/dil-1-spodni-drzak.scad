@@ -43,6 +43,12 @@ show() {
 // moduly
 
 module
+dil_1() {
+    part1_2();
+    partB();
+}
+
+module
 part1_2(thickness = tloustka_sten, deepening = hloubka_zahloubeni)
 {
     w = vzdalenost_dilu;
