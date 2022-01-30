@@ -3,44 +3,37 @@
 //
 // Autor: Ivo Panáček, December 2021
 // ivo.panacek@gmail.com
-// Version: 0
+// Version: 1
 //
 // ------------------------------------------------------------------
 //
-// díl č. 1 - spodní držák
+// díl č. 3 - horní držák
 //
 // ------------------------------------------------------------------
 
-use <drzakMotoru.scad>;
+use <../drzakMotoru.scad>;
 
 // ------------------------------------------------------------------
 // main program
 
-part1();
+//base();
+part3();
 
 // ------------------------------------------------------------------
 // moduly
 
-module part1(thickness=4) {
+module part3(thickness=4) {
     rotate([0,-90,0])
     union() {
-        translate([0,55/2,50])
+        translate([0,55/2,thickness])
         drzakMotoru(thickness);
-        central();
         base(thickness);
     }
 }
 
-module central() {
-    width = 55;
-    height = 10;
-    thickness=50;
-    cube([height,width,thickness]);
-}
-
 module base(thickness=4) {
     width = 55;
-    height = 31;
+    height = 30;
 
     cube([height,width,thickness]);
 }

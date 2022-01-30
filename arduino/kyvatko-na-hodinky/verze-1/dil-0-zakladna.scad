@@ -3,7 +3,7 @@
 //
 // Autor: Ivo Panáček, December 2021
 // ivo.panacek@gmail.com
-// Version: 0
+// Version: 1
 //
 // ------------------------------------------------------------------
 //
@@ -39,8 +39,8 @@ module part0(thickness=4) {
 
 module hole(thickness=4) {
     gap = 0.2;
-    width = 36 + gap;
-    height = 30 + gap;
+    width = 55 + gap;
+    height = 31 + gap;
 
     translate([-height/2,-width/2,0])
     cube([height,width,thickness]);
@@ -53,7 +53,7 @@ module fullBlock(thickness=4,width = 140) {
 }
 
 module block(thickness=4,width = 140) {
-    innerWidth = 50;
+    innerWidth = 60;
 
     union() {
         translate([-innerWidth/2,-innerWidth/2,0])

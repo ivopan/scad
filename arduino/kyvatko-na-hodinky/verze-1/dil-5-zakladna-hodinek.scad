@@ -3,11 +3,11 @@
 //
 // Autor: Ivo Panáček, December 2021
 // ivo.panacek@gmail.com
-// Version: 0
+// Version: 1
 //
 // ------------------------------------------------------------------
 //
-// díl č. 6 - klec hodinek
+// díl č. 5 - základna hodinek
 //
 // ------------------------------------------------------------------
 
@@ -18,28 +18,28 @@ $fn=1000;
 // ------------------------------------------------------------------
 // main program
 
-part6();
+part5();
 
 // ------------------------------------------------------------------
 // moduly
 
-module part6(thickness=4) {
-    height = 20;
+module part5(thickness=4) {
     width = 50;
+    w1 = 20;
+    h1 = 10;
 
-    union() {
-        bottom(thickness,width);
-        tycky(thickness,height,width,2);
+    difference() {
+        desk(thickness,width);
+
+        translate([-w1/2,-h1/2,1])
+        cube([w1,h1,thickness]);
     }
 }
 
-module bottom(thickness,width) {
-    diameter = width-6;
-
+module desk(thickness,width) {
     difference() {
         base(thickness,width);
-        translate([0,0,-1])
-        cylinder(d=diameter,h=thickness+2);
+        otvory(thickness,width,2);
     }
 }
 

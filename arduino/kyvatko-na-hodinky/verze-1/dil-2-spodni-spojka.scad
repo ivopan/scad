@@ -3,35 +3,32 @@
 //
 // Autor: Ivo Panáček, December 2021
 // ivo.panacek@gmail.com
-// Version: 0
+// Version: 1
 //
 // ------------------------------------------------------------------
 //
-// díl č. 4 - horní spojka
+// díl č. 2 - spodní spojka
 //
 // ------------------------------------------------------------------
 
-use <kruhovyNastavec.scad>;
+use <../kruhovyNastavec.scad>;
 
 $fn=1000;
 
 // ------------------------------------------------------------------
 // main program
 
-part4();
+part2();
 
 // ------------------------------------------------------------------
 // moduly
 
-module part4(thickness=4) {
+module part2(thickness=4) {
 
     rotate([180,0,0])
     union() {
-        color([0,1,0])
-        zakladnaSKruhovymNastavecem(thickness);
-        color([1,0,0])
+        base();
         arm();
-        color([0,0,1])
         top();
     }
 
@@ -39,20 +36,34 @@ module part4(thickness=4) {
 
 module top(thickness=4) {
     width = 10;
-    height = 20;
+    height = 30;
 
-    translate([10,90-thickness,thickness])
+    translate([0,60-thickness,thickness])
     rotate([-90,0,0])
     cube([width,height,thickness]);
 }
 
 module arm(thickness=4) {
     width = 10;
-    height = 60;
+    height = 30;
 
-    translate([10,30,0])
+    translate([0,30,0])
     cube([width,height,thickness]);
 }
+
+module base(thickness=4) {
+    width = 6;
+    height = 30;
+
+    union() {
+        cube([width,height,thickness]);
+        translate([width,0,0])
+        zakladnaSKruhovymNastavecem(thickness);
+    }
+    
+}
+
+
 
 // ------------------------------------------------------------------
 // eof

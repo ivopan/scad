@@ -3,7 +3,7 @@
 //
 // Autor: Ivo Panáček, December 2021
 // ivo.panacek@gmail.com
-// Version: 0
+// Version: 1
 //
 // ------------------------------------------------------------------
 //
@@ -14,21 +14,19 @@
 //
 // ------------------------------------------------------------------
 
-// dreh=$t*360;
-$fn=1000;
+include <konstanty.scad>
 
 // ------------------------------------------------------------------
 // main program
 
-zakladnaSKruhovymNastavecem();
-//kruhovyNastavec();
+//zakladnaSKruhovymNastavecem();
+kruhovyNastavec();
 //otvorProKruhovyNastavec();
 
 // ------------------------------------------------------------------
 // moduly
 
 module zakladnaSKruhovymNastavecem(thickness=4) {
-    screwLength = 11.5;
     width = 30;
     height = 30;
     delta=15;
@@ -39,35 +37,31 @@ module zakladnaSKruhovymNastavecem(thickness=4) {
             translate([width-delta,delta,thickness])
             kruhovyNastavec();
         }
-        translate([width-delta,delta,-screwLength+3])
-        otvoryProSrouby(screwLength+2);
+        translate([width-delta,delta,-kn_screwLength+3])
+        otvoryProSrouby(kn_screwLength+2);
     }
 }
 
 module kruhovyNastavec() {
-    screwLength = 11.5;
-    innerDiameter = 10;
-    outerDiameter = 27;
 
-    translate([0,0,-screwLength])
     difference() {
+        translate([0,0,-kn_screwLength])
         kruhovyNastavecBase();
-        translate([0,0,-0.1])
-        otvorProKruhovyNastavec(height=3,thickness=screwLength+1);
+        kruhovyNastavecOtvory();
    }
 }
 
+module kruhovyNastavecOtvory() {
+
+    translate([0,0,-kn_screwLength])
+    translate([0,0,-0.1])
+    otvorProKruhovyNastavec(height=3,thickness=kn_screwLength+1);
+    translate([0,0,-99.9])
+    cylinder(d=kn_innerDiameter,h=100);
+}
+
 module kruhovyNastavecBase() {
-    screwLength = 11.5;
-    innerDiameter = 10;
-    outerDiameter = 27;
-
-    difference() {
-        cylinder(d=outerDiameter,h=screwLength);
-        translate([0,0,-1])
-        cylinder(d=innerDiameter,h=screwLength+2);
-    }
-
+    cylinder(d=kn_outerDiameter,h=kn_screwLength);
 }
 
 module otvorProKruhovyNastavec(height = 2.3,thickness=4) {
