@@ -18,7 +18,7 @@ use <../nastavecNaOsu.scad>
 sirka_desky = 30;
 
 sirka_nohy = kn_outerDiameter;
-vyska_nohy = 30;
+
 delka_zahloubeni = 15;
 
 vzdalenost_kruhoveho_nastavce = 44;

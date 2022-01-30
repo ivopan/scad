@@ -17,10 +17,14 @@ $fn = 1000;
 tloustka_spodni_desky = 4;
 tloustka_sten = 4;
 
+
+
 sirka_zahloubeni = 10;
 hloubka_zahloubeni = 3;
 delta_zahloubeni = 0.2;
 delta_zahloubeni_nasunovaci = 0.4;
+
+vyska_nohy = 25;
 
 // motor
 sirka_motoru_a_kridelek = 55;
