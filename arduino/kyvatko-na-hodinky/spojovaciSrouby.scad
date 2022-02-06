@@ -25,7 +25,7 @@ spojovaciSrouby();
 module
 spojovaciSrouby(thickness = 4, x = 30, y = 50, pos = 1)
 {
-    posun = 12;
+    posun = 13;
     w = x/2 - posun;
     h = y/2 - posun;
 
