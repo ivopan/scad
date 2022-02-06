@@ -35,9 +35,9 @@ delka_drzaku = vzdalenost_drzaku + kn_screwLength;
 
 //sroub();
 //part3();
-//part3spojka();
+part3spojka();
 //part4();
-part5();
+//part5();
 
 //show();
 
@@ -258,8 +258,7 @@ sroub(thickness = tloustka_sten) {
 
 module
 matka() {
-    diameter = 6.1;
-    diameterIn = 5.2;
+    diameter = 6.7;
     h = 2.6;
 
     translate([0,0,0])
