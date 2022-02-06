@@ -23,12 +23,15 @@ spojovaciSrouby();
 
 
 module
-spojovaciSrouby(thickness = 4, x = 30, y = 50)
+spojovaciSrouby(thickness = 4, x = 30, y = 50, pos = 1)
 {
     posun = 5;
-    
     w = x/2 - posun;
     h = y/2 - posun;
+
+    posun_pruchodky = 15;
+    pos_x = -1;    
+    pos_y = pos;
 
     translate([0,0,-thickness])
     union() {
@@ -36,6 +39,7 @@ spojovaciSrouby(thickness = 4, x = 30, y = 50)
         translate([-w,h,0])spojovaciSroub(thickness);
         translate([w,-h,0])spojovaciSroub(thickness);
         translate([-w,-h,0])spojovaciSroub(thickness);
+        translate([pos_x*(x/2-posun_pruchodky),pos_y*(y/2-posun_pruchodky),0])pruchodka(thickness);
     }
 }
     
@@ -46,6 +50,11 @@ spojovaciSroub(thickness = 4)
     h = 3*thickness;
 
     cylinder(d=diameter, h=h);
+}
+
+module
+pruchodka(thickness = 4) {
+    cylinder(d=prumer_pruchodky,h=3*thickness);
 }
     
 // ------------------------------------------------------------------

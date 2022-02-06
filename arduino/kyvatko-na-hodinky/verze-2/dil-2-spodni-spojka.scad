@@ -36,6 +36,7 @@ delka_drzaku = vzdalenost_drzaku + kn_screwLength;
 //part3spojka();
 //part4();
 //part5();
+
 show();
 
 // ------------------------------------------------------------------
@@ -88,9 +89,9 @@ part5(thickness1 = tloustka_sten, thickness2 = tloustka_sten_spojky, deepening =
     difference() {
 
         difference() {
-            translate([-x/2,-y/2])
+            translate([-x/2,-y/2,0])
             cube([x,y,thickness1]);
-            spojovaciSrouby(thickness1,x,y);
+            spojovaciSrouby(thickness1,x,y,-1);
         }
 
         translate([0,0,-delta_zahloubeni/2])

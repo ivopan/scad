@@ -18,6 +18,11 @@ tloustka_spodni_desky = 4;
 tloustka_sten = 4;
 tloustka_sten_spojky = 5;
 
+tloustka_drzaku_u_motoru = 2.3;
+
+posunout_stojan_y = -8;
+
+prumer_pruchodky = 10;
 
 sirka_zahloubeni = 10;
 hloubka_zahloubeni = 3;
