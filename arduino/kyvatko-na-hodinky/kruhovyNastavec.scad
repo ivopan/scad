@@ -108,10 +108,9 @@ module radaOtvoruProSroub(height = 2.3) {
 }
 
 module otvorProSroub(height = 2.3) {
-    screwDiameter = 1.4;
-    diameter = 2;
+    screwDiameter = 2.4;
 
-    cylinder(d=diameter,h=height);
+    cylinder(d=screwDiameter,h=height);
 }
 
 // ------------------------------------------------------------------

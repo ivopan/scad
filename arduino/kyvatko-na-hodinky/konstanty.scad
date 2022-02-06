@@ -16,7 +16,7 @@ $fn = 1000;
 
 tloustka_spodni_desky = 4;
 tloustka_sten = 4;
-
+tloustka_sten_spojky = 5;
 
 
 sirka_zahloubeni = 10;
@@ -25,9 +25,10 @@ delta_zahloubeni = 0.2;
 delta_zahloubeni_nasunovaci = 0.4;
 
 vyska_nohy = 25;
+vyska_spojky_nohy = 11;
 
 // motor
-sirka_motoru_a_kridelek = 55;
+sirka_motoru_a_kridelek = 54 + 0.4;
 sirka_nohy_motoru = 7;
 delka_nohy_motoru = 20;
 vyska_osy = 30;

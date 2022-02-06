@@ -25,18 +25,19 @@ drzakMotoruSeZakladnou();
 module
 drzakMotoruSeZakladnou(thickness = 4,
                        width = sirka_motoru_a_kridelek,
-                       hlouba_zakladny = 31)
+                       hloubka_zakladny = 31)
 {
-    height = hlouba_zakladny;
+    height = hloubka_zakladny;
 
-    translate([ 0, 0, thickness ]) drzakMotoru(thickness);
+    translate([ 0, 0, thickness ]) drzakMotoru(thickness,width);
     translate([ 0, -width / 2, 0 ]) cube([ height, width, thickness ]);
 }
 
 module
-drzakMotoru(thickness = 4)
+drzakMotoru(thickness = 4, width = sirka_motoru_a_kridelek)
 {
-    delta = 48; // 41 + 2x polovina width
+    //delta = 48; // 41 + 2x polovina width
+    delta = width - sirka_nohy_motoru;
 
     translate([ 0, 0, 10 ]) rotate([ 0, 90, 0 ]) union()
     {

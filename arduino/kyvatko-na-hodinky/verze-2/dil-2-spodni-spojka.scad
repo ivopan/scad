@@ -14,8 +14,9 @@
 include <../konstanty.scad>
 use <../kruhovyNastavec.scad>
 use <../nastavecNaOsu.scad>
+use <../spojovaciSrouby.scad>
 
-sirka_desky = 30;
+sirka_desky = 64;
 
 sirka_nohy = kn_outerDiameter;
 
@@ -27,14 +28,17 @@ vzdalenost_drzaku = vzdalenost_kruhoveho_nastavce + delta_nastavce_na_osu;
 
 delka_drzaku = vzdalenost_drzaku + kn_screwLength;
 
-
 // ------------------------------------------------------------------
 // main program
 
+//sroub();
 //part3();
+//part3spojka();
 //part4();
-
+//part5();
 show();
+
+// ------------------------------------------------------------------
 
 module
 show() {
@@ -63,30 +67,41 @@ part3_4(thickness = tloustka_sten, deepening = hloubka_zahloubeni)
     translate([-thickness,0,-vyska_nohy])
     union() {
         translate([vzdalenost_drzaku/2,0,0])
-        rotate([90,0,90])part3();
+        rotate([90,0,90])
+        union() {
+            part3();
+            part3spojka();
+        }
         translate([-vzdalenost_drzaku/2,0,0])
         rotate([90,0,-90])part4();
     }
 }
 
 module
-part5(thickness = tloustka_sten, deepening = hloubka_zahloubeni)
+part5(thickness1 = tloustka_sten, thickness2 = tloustka_sten_spojky, deepening = hloubka_zahloubeni)
 {
-    x = delka_drzaku + 2*thickness;
+    x = delka_drzaku + 2*thickness1;
     y = sirka_desky;
+
+    echo("Horni drzak: ",x,", ",y);
 
     difference() {
 
-        translate([-x/2,-y/2])
-        cube([x,y,thickness]);
+        difference() {
+            translate([-x/2,-y/2])
+            cube([x,y,thickness1]);
+            spojovaciSrouby(thickness1,x,y);
+        }
 
         translate([0,0,-delta_zahloubeni/2])
         union() {
-            translate([-x/2+thickness/2,0,0])
-            teeDeep(thickness,deepening,delta_zahloubeni_nasunovaci);
-            translate([x/2-thickness/2,0,0])
+            // pro part4
+            translate([-x/2+thickness1/2,0,0])
+            teeDeep(thickness1,deepening,delta_zahloubeni_nasunovaci);
+            // pro part3spojka
+            translate([x/2-thickness1/2-thickness1,0,0])
             rotate([0,0,180])
-            teeDeep(thickness,deepening,delta_zahloubeni);
+            teeDeep(thickness2,deepening,delta_zahloubeni);
         }
     }
 }
@@ -135,19 +150,85 @@ module
 part3(thickness = tloustka_sten, deepening = hloubka_zahloubeni)
 {
 
-    translate([0,0,kn_screwLength])
-    union() {
-        difference() {
-            translate([-sirka_nohy/2,0,-thickness])
-            cube([sirka_nohy,vyska_nohy,thickness]);
-            kruhovyNastavecOtvory();
-        }    
-        kruhovyNastavec(thickness);
+    h = vyska_nohy - deepening;
 
-        color([0,1,1])
-        translate([-sirka_zahloubeni/2,vyska_nohy-deepening,-delka_zahloubeni-thickness])
-        cube([sirka_zahloubeni,deepening,delka_zahloubeni]);
+    difference() {
+        translate([0,0,kn_screwLength])
+        union() {
+            difference() {
+                translate([-sirka_nohy/2,0,-thickness])
+                cube([sirka_nohy,h,thickness]);
+                kruhovyNastavecOtvory();
+            }    
+            kruhovyNastavec();
+        }
+        color([1,0,0])
+        translate([0, 0, thickness])
+        srouby(thickness);
     }
+}
+
+module
+part3spojka(thickness1 = tloustka_sten, thickness2 = tloustka_sten_spojky, deepening = hloubka_zahloubeni)
+{
+
+    posun = vyska_nohy - vyska_spojky_nohy;
+    h = kn_screwLength-thickness1;
+
+    difference() {
+        translate([0,posun,h])
+        union() {
+            translate([-sirka_nohy/2,0,-thickness2])
+            cube([sirka_nohy,vyska_spojky_nohy,thickness2]);
+
+            color([0,1,1])
+            translate([-sirka_zahloubeni/2,vyska_spojky_nohy-deepening,-delka_zahloubeni-thickness2])
+            cube([sirka_zahloubeni,deepening,delka_zahloubeni]);
+        }
+        color([1,0,0])
+        translate([0,0,h-thickness2-0.05])
+        srouby(thickness2,deepening);
+    }
+}
+
+module
+srouby(thickness = tloustka_sten, deepening = hloubka_zahloubeni) {
+    posun = vyska_nohy - vyska_spojky_nohy;
+    p = posun + (vyska_spojky_nohy-deepening)/2;
+    y = sirka_nohy/2-sirka_nohy/4;
+
+    translate([y,p,0])sroub(thickness);
+    translate([-y,p,0])sroub(thickness);
+}
+
+module
+sroub(thickness = tloustka_sten) {
+    diameter = 3.2;
+    h = 3*thickness;
+
+    translate([0,0,0])
+    cylinder(d=diameter, h=h);
+}
+
+module
+sroub(thickness = tloustka_sten) {
+    diameter = 3.2;
+    h = 3*thickness;
+
+    union() {
+        cylinder(d=diameter, h=h);
+        matka();
+    }
+}
+
+module
+matka() {
+    diameter = 6.1;
+    diameterIn = 5.2;
+    h = 2.6;
+
+    translate([0,0,0])
+    cylinder(d=diameter, h=h, $fn=6);
 }
 
 // ------------------------------------------------------------------
