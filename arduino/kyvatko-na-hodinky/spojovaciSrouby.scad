@@ -62,7 +62,19 @@ spojovaciSroub(thickness = 4)
     diameter = 3.2;
     h = 3*thickness;
 
-    cylinder(d=diameter, h=h);
+    union() {
+        cylinder(d=diameter, h=h);
+        matka();
+    }
+}
+
+module
+matka() {
+    diameter = 6.7;
+    h = 2.6;
+
+    translate([0,0,0])
+    cylinder(d=diameter, h=h, $fn=6);
 }
 
 module

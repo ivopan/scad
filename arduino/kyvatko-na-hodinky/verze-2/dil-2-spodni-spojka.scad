@@ -35,9 +35,9 @@ delka_drzaku = vzdalenost_drzaku + kn_screwLength;
 
 //sroub();
 //part3();
-part3spojka();
+//part3spojka();
 //part4();
-//part5();
+part5();
 
 //show();
 
@@ -125,6 +125,7 @@ part5(thickness1 = tloustka_sten, thickness2 = tloustka_sten_spojky, deepening =
             // translate([-deska_x/2,-deska_y/2,0])
             // cube([deska_x,deska_y,thickness1]);
             cylinder(d=deska_x,h=thickness1);
+            translate([0,0,1.3+2.6])
             spojovaciSrouby(thickness=thickness1,x=deska_x,y=deska_y,pos=-1);
         }
 
@@ -234,15 +235,6 @@ srouby(thickness = tloustka_sten, deepening = hloubka_zahloubeni) {
 
     translate([y,p,0])sroub(thickness);
     translate([-y,p,0])sroub(thickness);
-}
-
-module
-sroub(thickness = tloustka_sten) {
-    diameter = 3.2;
-    h = 3*thickness;
-
-    translate([0,0,0])
-    cylinder(d=diameter, h=h);
 }
 
 module

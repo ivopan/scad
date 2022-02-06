@@ -158,7 +158,8 @@ partB(thickness = tloustka_spodni_desky, deepening = hloubka_zahloubeni)
             }
         }
         union() {
-            translate([0,0,-1])
+            //translate([0,0,-1])
+            translate([0,0,-3])
             spojovaciSrouby(thickness=thickness,x=deska_x,y=deska_y,pos=1);
         }
     }
