@@ -14,6 +14,8 @@
 // dreh=$t*360;
 $fn = 1000;
 
+prumer_zakladny = 68;
+
 tloustka_spodni_desky = 4;
 tloustka_sten = 4;
 tloustka_sten_spojky = 5;

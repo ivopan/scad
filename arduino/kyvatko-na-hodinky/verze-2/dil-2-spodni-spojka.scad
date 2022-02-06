@@ -16,7 +16,9 @@ use <../kruhovyNastavec.scad>
 use <../nastavecNaOsu.scad>
 use <../spojovaciSrouby.scad>
 
-sirka_desky = 64;
+//sirka_desky = 64;
+sirka_desky = prumer_zakladny;
+sirka_desky_y = prumer_zakladny;
 
 sirka_nohy = kn_outerDiameter;
 
@@ -79,9 +81,10 @@ part3_4(thickness = tloustka_sten, deepening = hloubka_zahloubeni)
 }
 
 module
-part5(thickness1 = tloustka_sten, thickness2 = tloustka_sten_spojky, deepening = hloubka_zahloubeni)
+part5_0(thickness1 = tloustka_sten, thickness2 = tloustka_sten_spojky, deepening = hloubka_zahloubeni)
 {
-    x = delka_drzaku + 2*thickness1;
+    //x = delka_drzaku + 2*thickness1;
+    x = sirka_desky_y;
     y = sirka_desky;
 
     echo("Horni drzak: ",x,", ",y);
@@ -92,6 +95,37 @@ part5(thickness1 = tloustka_sten, thickness2 = tloustka_sten_spojky, deepening =
             translate([-x/2,-y/2,0])
             cube([x,y,thickness1]);
             spojovaciSrouby(thickness1,x,y,-1);
+        }
+
+        translate([0,0,-delta_zahloubeni/2])
+        union() {
+            // pro part4
+            translate([-x/2+thickness1/2,0,0])
+            teeDeep(thickness1,deepening,delta_zahloubeni_nasunovaci);
+            // pro part3spojka
+            translate([x/2-thickness1/2-thickness1,0,0])
+            rotate([0,0,180])
+            teeDeep(thickness2,deepening,delta_zahloubeni);
+        }
+    }
+}
+
+module
+part5(thickness1 = tloustka_sten, thickness2 = tloustka_sten_spojky, deepening = hloubka_zahloubeni)
+{
+    x = delka_drzaku + 2*thickness1;
+    deska_x = sirka_desky_y;
+    deska_y = sirka_desky;
+
+    echo("Horni drzak: ",deska_x,", ",deska_y);
+
+    difference() {
+
+        difference() {
+            // translate([-deska_x/2,-deska_y/2,0])
+            // cube([deska_x,deska_y,thickness1]);
+            cylinder(d=deska_x,h=thickness1);
+            spojovaciSrouby(thickness1,deska_x,deska_y,-1);
         }
 
         translate([0,0,-delta_zahloubeni/2])

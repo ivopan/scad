@@ -26,8 +26,10 @@ chladic = sirka_motoru_a_kridelek - 2*posun_chladice;
 hloubka_zakladny = 21;
 hlouba_zakladny_vnejsi = 10;
 
-deska_x = 64;
-deska_y = 64; // 30;
+// deska_x = 64;
+// deska_y = 64; // 30;
+deska_x = prumer_zakladny;
+deska_y = prumer_zakladny;
 deska_z = tloustka_spodni_desky;
 
 posunout_stojan_x = ( delka_nohy_motoru - sirka_zahloubeni ) / 2;
@@ -85,7 +87,7 @@ part1_2(thickness = tloustka_sten, deepening = hloubka_zahloubeni)
 }
 
 module
-partB(thickness = tloustka_spodni_desky, deepening = hloubka_zahloubeni)
+partB_0(thickness = tloustka_spodni_desky, deepening = hloubka_zahloubeni)
 {
     vz = vzdalenost_dilu+thickness;
 
@@ -99,6 +101,46 @@ partB(thickness = tloustka_spodni_desky, deepening = hloubka_zahloubeni)
         difference() {
             translate([-deska_x/2,-deska_y/2,-deska_z])
             cube([deska_x,deska_y,deska_z]);
+
+            translate([posunout_stojan_y+thickness/2,posunout_stojan_x,-deepening-delta_zahloubeni/2])
+            color([1,0,0])
+            union() {
+                // trn
+                translate([-vz/2,0,0])
+                translate([-h2_vnejsi,-w2/2,0])cube([h2_vnejsi,w2,z]);
+                // drzak
+                translate([vz/2,0,0])
+                translate([-h2,-w2/2,0])cube([h2,w2,z]);
+                // dira
+                color([1,1,0])
+                translate([vz/2-8-tloustka_sten,-2*w2,-2*thickness])
+                cube([8,delka_nohy_motoru+tloustka_sten,3*thickness]);
+            }
+        }
+        union() {
+            translate([0,0,-1])
+            spojovaciSrouby(thickness,deska_x,deska_y);
+        }
+    }
+}
+
+module
+partB(thickness = tloustka_spodni_desky, deepening = hloubka_zahloubeni)
+{
+    vz = vzdalenost_dilu+thickness;
+
+    h2 = hloubka_zakladny + 2*delta_zahloubeni;
+    h2_vnejsi = hlouba_zakladny_vnejsi + 2*delta_zahloubeni;
+    w2 = sirka_zahloubeni + 2*delta_zahloubeni;
+    z = deepening + delta_zahloubeni;
+
+    translate([delta_zahloubeni,0,deepening])
+    difference() {
+        difference() {
+            // translate([-deska_x/2,-deska_y/2,-deska_z])
+            // cube([deska_x,deska_y,deska_z]);
+            translate([0,0,-deska_z])
+            cylinder(d=deska_x,h=deska_z);
 
             translate([posunout_stojan_y+thickness/2,posunout_stojan_x,-deepening-delta_zahloubeni/2])
             color([1,0,0])
