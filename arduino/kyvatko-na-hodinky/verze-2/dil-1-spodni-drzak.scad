@@ -41,14 +41,14 @@ echo("Spodni zakladna: ",deska_x,", ",deska_y);
 
 //part1();
 //part2();
-//partB();
+partB();
 //part1_2();
 //dil_1();
 
 // zuby();
 // diry_na_zuby();
 
-show();
+//show();
 
 //chladic(tloustka_sten);
 
@@ -119,7 +119,7 @@ partB_0(thickness = tloustka_spodni_desky, deepening = hloubka_zahloubeni)
         }
         union() {
             translate([0,0,-1])
-            spojovaciSrouby(thickness,deska_x,deska_y);
+            spojovaciSrouby(thickness=thickness,x=deska_x,y=deska_y,pos=1);
         }
     }
 }
@@ -159,7 +159,7 @@ partB(thickness = tloustka_spodni_desky, deepening = hloubka_zahloubeni)
         }
         union() {
             translate([0,0,-1])
-            spojovaciSrouby(thickness,deska_x,deska_y);
+            spojovaciSrouby(thickness=thickness,x=deska_x,y=deska_y,pos=1);
         }
     }
 }

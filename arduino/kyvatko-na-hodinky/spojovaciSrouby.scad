@@ -31,6 +31,14 @@ spojovaciSrouby(thickness = 4, x = 30, y = 50, pos = 1)
 
     posun_pruchodky_x = 25;
     posun_pruchodky_y = 15;
+
+    if(pos==1) {
+        posun_pruchodky_x = 15;
+        posun_pruchodky_y = 25;
+    } else {
+        posun_pruchodky_x = 25;
+        posun_pruchodky_y = 15;
+    }
     pos_x = -1;    
     pos_y = pos;
 
@@ -40,7 +48,11 @@ spojovaciSrouby(thickness = 4, x = 30, y = 50, pos = 1)
         translate([-w,h,0])spojovaciSroub(thickness);
         translate([w,-h,0])spojovaciSroub(thickness);
         translate([-w,-h,0])spojovaciSroub(thickness);
-        translate([pos_x*(x/2-posun_pruchodky_x),pos_y*(y/2-posun_pruchodky_y),0])pruchodka(thickness);
+        if(pos==1) {
+            translate([pos_x*(x/2-posun_pruchodky_x),pos_y*(y/2-posun_pruchodky_y),0])pruchodka(thickness);
+        } else {
+            translate([pos_y*(y/2-posun_pruchodky_y),pos_x*(x/2-posun_pruchodky_x),0])pruchodka(thickness);
+        }
     }
 }
     
