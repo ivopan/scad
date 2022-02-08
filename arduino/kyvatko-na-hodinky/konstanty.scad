@@ -14,7 +14,7 @@
 // dreh=$t*360;
 $fn = 1000;
 
-prumer_zakladny = 68;
+prumer_zakladny = 70;
 
 tloustka_spodni_desky = 4;
 tloustka_sten = 4;
@@ -28,8 +28,7 @@ prumer_pruchodky = 10;
 
 sirka_zahloubeni = 10;
 hloubka_zahloubeni = 3;
-delta_zahloubeni = 0.2;
-delta_zahloubeni_nasunovaci = 0.4;
+delta_zahloubeni = 0.1;
 
 vyska_nohy = 25;
 vyska_spojky_nohy = 11;
@@ -49,6 +48,11 @@ delta_otvoru_trnu = 0.4;
 kn_screwLength = 11.5;
 kn_innerDiameter = 10;
 kn_outerDiameter = 27;
+
+// srouby a matky
+sirka_matky = 5.7;
+velikost_matky = sirka_matky / cos(30);
+vyska_matky = 2.6;
 
 // ------------------------------------------------------------------
 // eof

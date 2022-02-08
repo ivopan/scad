@@ -23,22 +23,15 @@ spojovaciSrouby();
 
 
 module
-spojovaciSrouby(thickness = 4, x = 30, y = 50, pos = 1)
+spojovaciSrouby(thickness = 4, x = 30, y = 50, pos = 1, bez_otvoru = false)
 {
-    posun = 13;
+    posun = 15;
     w = x/2 - posun;
     h = y/2 - posun;
 
-    posun_pruchodky_x = 25;
-    posun_pruchodky_y = 15;
+    posun_pruchodky_x = 24;
+    posun_pruchodky_y = 18;
 
-    if(pos==1) {
-        posun_pruchodky_x = 15;
-        posun_pruchodky_y = 25;
-    } else {
-        posun_pruchodky_x = 25;
-        posun_pruchodky_y = 15;
-    }
     pos_x = -1;    
     pos_y = pos;
 
@@ -48,10 +41,12 @@ spojovaciSrouby(thickness = 4, x = 30, y = 50, pos = 1)
         translate([-w,h,0])spojovaciSroub(thickness);
         translate([w,-h,0])spojovaciSroub(thickness);
         translate([-w,-h,0])spojovaciSroub(thickness);
-        if(pos==1) {
-            translate([pos_x*(x/2-posun_pruchodky_x),pos_y*(y/2-posun_pruchodky_y),0])pruchodka(thickness);
-        } else {
-            translate([pos_y*(y/2-posun_pruchodky_y),pos_x*(x/2-posun_pruchodky_x),0])pruchodka(thickness);
+        if(! bez_otvoru) {
+            if(pos==1) {
+                translate([pos_x*(x/2-posun_pruchodky_x),pos_y*(y/2-posun_pruchodky_y),0])pruchodka(thickness);
+            } else {
+                translate([pos_y*(y/2-posun_pruchodky_y),pos_x*(x/2-posun_pruchodky_x),0])pruchodka(thickness);
+            }
         }
     }
 }
@@ -70,8 +65,8 @@ spojovaciSroub(thickness = 4)
 
 module
 matka() {
-    diameter = 6.7;
-    h = 2.6;
+    diameter = velikost_matky;
+    h = vyska_matky;
 
     translate([0,0,0])
     cylinder(d=diameter, h=h, $fn=6);

@@ -10,4 +10,9 @@
   * export jako stl = F6 = kostička se šipkou nahoru
     * 
 
+Knihovny:
+
+https://openscad.org/libraries.html
+
+
 ---

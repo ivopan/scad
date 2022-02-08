@@ -21,6 +21,7 @@ include <konstanty.scad>
 
 //zakladnaSKruhovymNastavecem();
 kruhovyNastavec();
+//kruhovyNastavecOtvory();
 //otvorProKruhovyNastavec();
 
 // ------------------------------------------------------------------
@@ -55,7 +56,7 @@ module kruhovyNastavecOtvory() {
 
     translate([0,0,-kn_screwLength])
     translate([0,0,-0.1])
-    otvorProKruhovyNastavec(height=3,thickness=kn_screwLength+1);
+    otvorProKruhovyNastavec(height=7,thickness=kn_screwLength+1);
     translate([0,0,-99.9])
     cylinder(d=kn_innerDiameter,h=100);
 }

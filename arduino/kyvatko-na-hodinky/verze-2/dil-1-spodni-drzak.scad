@@ -87,44 +87,6 @@ part1_2(thickness = tloustka_sten, deepening = hloubka_zahloubeni)
 }
 
 module
-partB_0(thickness = tloustka_spodni_desky, deepening = hloubka_zahloubeni)
-{
-    vz = vzdalenost_dilu+thickness;
-
-    h2 = hloubka_zakladny + 2*delta_zahloubeni;
-    h2_vnejsi = hlouba_zakladny_vnejsi + 2*delta_zahloubeni;
-    w2 = sirka_zahloubeni + 2*delta_zahloubeni;
-    z = deepening + delta_zahloubeni;
-
-    translate([delta_zahloubeni,0,deepening])
-    difference() {
-        difference() {
-            translate([-deska_x/2,-deska_y/2,-deska_z])
-            cube([deska_x,deska_y,deska_z]);
-
-            translate([posunout_stojan_y+thickness/2,posunout_stojan_x,-deepening-delta_zahloubeni/2])
-            color([1,0,0])
-            union() {
-                // trn
-                translate([-vz/2,0,0])
-                translate([-h2_vnejsi,-w2/2,0])cube([h2_vnejsi,w2,z]);
-                // drzak
-                translate([vz/2,0,0])
-                translate([-h2,-w2/2,0])cube([h2,w2,z]);
-                // dira
-                color([1,1,0])
-                translate([vz/2-8-tloustka_sten,-2*w2,-2*thickness])
-                cube([8,delka_nohy_motoru+tloustka_sten,3*thickness]);
-            }
-        }
-        union() {
-            translate([0,0,-1])
-            spojovaciSrouby(thickness=thickness,x=deska_x,y=deska_y,pos=1);
-        }
-    }
-}
-
-module
 partB(thickness = tloustka_spodni_desky, deepening = hloubka_zahloubeni)
 {
     vz = vzdalenost_dilu+thickness;
@@ -207,30 +169,56 @@ part1(thickness = tloustka_sten, deepening = hloubka_zahloubeni)
     zada = vzdalenost_dilu + thickness;
 
     translate([-hloubka_zakladny, 0, 0])
-    union() {
-        translate([ hloubka_zakladny, 0, width/2+deepening])
-        rotate([ -90, 0, 180 ]) 
-        difference() {
-            drzakMotoruSeZakladnou( thickness=thickness, hloubka_zakladny=zada);
-            translate([hloubka_zakladny/2-thickness, 0, 0])
-            color([1,0,0])
-            chladic(thickness);
+    difference() {
+        union() {
+            translate([ hloubka_zakladny, 0, width/2+deepening])
+            rotate([ -90, 0, 180 ]) 
+            difference() {
+                drzakMotoruSeZakladnou( thickness=thickness, hloubka_zakladny=zada);
+                translate([hloubka_zakladny/2-thickness, 0, 0])
+                color([1,0,0])
+                chladic(thickness);
+            }
+
+            translate([ hloubka_zakladny, 0, 0])
+            zuby(thickness);
+
+            difference() {
+                color([0,1,1])
+                translate([ 0, -w2, 0])
+                cube([hloubka_zakladny,w2,deepening]);
+                // dira
+                wd=delka_nohy_motoru+tloustka_sten;
+                color([1,1,0])
+                translate([hloubka_zakladny-8-thickness,-wd-thickness,-deepening*0.5])
+                cube([8,wd,2*deepening]);
+            }
         }
 
-        translate([ hloubka_zakladny, 0, 0])
-        zuby(thickness);
+        h = 5;
+        w = 10;
+        depth = 20;
+        w1 = w  / 5;
 
+        translate([-2,-depth/2,sirka_motoru_a_kridelek-1])
         difference() {
+            color([0,0,1])
+            cube([w,depth,h]);
             color([0,1,1])
-            translate([ 0, -w2, 0])
-            cube([hloubka_zakladny,w2,deepening]);
-            // dira
-            wd=delka_nohy_motoru+tloustka_sten;
-            color([1,1,0])
-            translate([hloubka_zakladny-8-thickness,-wd-thickness,-deepening*0.5])
-            cube([8,wd,2*deepening]);
+            translate([0,30,0])
+            union() {
+                translate([0,0,w1])sek();
+                translate([w,0,w1])sek();
+            }
         }
     }
+}
+
+module
+sek(){
+    rotate([90,0,0])
+    rotate([0,0,-30])
+    cylinder(d=10,h=40,$fn=3);
 }
 
 module
