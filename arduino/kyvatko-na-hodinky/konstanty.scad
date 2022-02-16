@@ -16,6 +16,8 @@ $fn = 1000;
 
 prumer_zakladny = 70;
 
+posun_spojovacich_sroubu = 15;
+
 tloustka_spodni_desky = 4;
 tloustka_sten = 4;
 tloustka_sten_spojky = 5;
@@ -50,6 +52,7 @@ kn_innerDiameter = 10;
 kn_outerDiameter = 27;
 
 // srouby a matky
+prumer_spojovaciho_sroubu = 3.2;
 sirka_matky = 5.7;
 velikost_matky = sirka_matky / cos(30);
 vyska_matky = 2.6;

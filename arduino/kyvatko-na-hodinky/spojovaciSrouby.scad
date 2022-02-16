@@ -25,7 +25,7 @@ spojovaciSrouby();
 module
 spojovaciSrouby(thickness = 4, x = 30, y = 50, pos = 1, bez_otvoru = false)
 {
-    posun = 15;
+    posun = posun_spojovacich_sroubu;
     w = x/2 - posun;
     h = y/2 - posun;
 
@@ -54,7 +54,7 @@ spojovaciSrouby(thickness = 4, x = 30, y = 50, pos = 1, bez_otvoru = false)
 module
 spojovaciSroub(thickness = 4)
 {
-    diameter = 3.2;
+    diameter = posun_spojovacich_sroubu;
     h = 3*thickness;
 
     union() {
