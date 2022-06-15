@@ -10,9 +10,21 @@
   * export jako stl = F6 = kostička se šipkou nahoru
     * 
 
-Knihovny:
+## Návody:
+
+https://openscad.org/cheatsheet/index.html
+
+
+
+## Knihovny:
+
+https://github.com/openscad/MCAD
 
 https://openscad.org/libraries.html
 
+https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Libraries
+
+možná nefunguje:
+https://github.com/revarbat/BOSL2
 
 ---
