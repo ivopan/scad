@@ -133,7 +133,7 @@ spodni_dil()
         difference() {
             union() {
                 spodni_valec();
-                translate([0,0,jogurt_vyska + tloustka_steny - 1.1])
+                translate([0,0,jogurt_vyska + tloustka_steny - 2.5])
                 sroub();
             }
             translate([0,0,tloustka_steny])jogurt();
@@ -154,7 +154,7 @@ module
 sroub()
 {
     metric_bolt(
-        size = zavit_prumer,
+        size = zavit_prumer-1,
         l = vyska_sroubovice-1,
         headtype = "none",
         pitch = vyska_zavitu,
