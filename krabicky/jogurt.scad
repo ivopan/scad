@@ -10,15 +10,28 @@ use <../libs/BOSL/masks.scad>
 // rozměry - nastavení
 
 // vlastní jogurt
-jogurt_spodni_prumer = 50;
-jogurt_horni_prumer = 70;
-jogurt_vyska = 86;
+
+// Olma Klasik 2,7
+//jogurt_spodni_prumer = 50;
+//jogurt_horni_prumer = 70;
+//jogurt_vyska = 86;
+
+// Albert bílý NATUR
+jogurt_spodni_prumer = 48;
+jogurt_horni_prumer = 78;
+jogurt_vyska = 90;
 
 // výsledný cylindr
 tloustka_steny = 5;
 vyska_sroubovice = 20;
+sroubovice_od_horniho_dilu = 1;
+
+// ------------------------------------------------------------------
+// rozměry - konstanty
 
 vyska_zavitu = 4;
+
+tloustka_cisteho_zavitu = 4; // zmerena konstanta
 
 // ------------------------------------------------------------------
 // rozměry - výpočty
@@ -29,7 +42,14 @@ jogurt_prumer = max(jogurt_spodni_prumer,jogurt_horni_prumer);
 valec_prumer = jogurt_prumer + 2*tloustka_steny;
 valec_vyska = jogurt_vyska + 2*tloustka_steny;
 
-zavit_prumer = valec_prumer - tloustka_steny;
+zavit_prumer = valec_prumer - 4;
+
+zavit_volnost = 1;
+
+echo("----------------------------------------------------");
+echo("valec_prumer=",valec_prumer);
+echo("zavit_prumer=",zavit_prumer);
+echo("----------------------------------------------------");
 
 // ------------------------------------------------------------------
 // konstanty
@@ -39,14 +59,30 @@ smooth = 256; // pro reálný tisk
 
 // ------------------------------------------------------------------
 
-spodni_dil();
-//horni_dil();
+//translate([0,0,valec_vyska-tloustka_steny/2])rotate([180,0,0])
+//color("red",0.6)
+horni_dil();
+
+//color("green",0.6)
+//spodni_dil();
+
+//spodni_valec_se_sroubem();
 //spodni_dil_test();
 
 //translate([valec_prumer+5,0,0]) horni_dil();
 
+//zaklopka();
+//translate([0,0,vyska_sroubovice])zaklopka();
+//horni_sroub();
+//horni_matice();
+//orez_cylinder();
+//orez_vrstva();
+
+//matice();
+//sroub();
+
 // ------------------------------------------------------------------
-// moduly
+// vrsek
 
 module
 horni_dil()
@@ -55,19 +91,32 @@ horni_dil()
     rotate([0,180,0])
     union() {
         translate([0,0,vyska_sroubovice])zaklopka();
-        difference() {
-            difference() {
-                matice();
-                orez_cylinder();
-            }
-            orez_vrstva();
-        }
+        horni_sroub();
+    }
+}
+
+module
+horni_sroub()
+{
+    difference() {
+        horni_matice();
+        orez_vrstva();
+    }
+}
+
+module
+horni_matice()
+{
+    difference() {
+        matice();
+        orez_cylinder();
     }
 }
 
 module
 zaklopka()
 {
+    translate([0,0,tloustka_steny/2])
     difference() {
         cylinder( 
             h = tloustka_steny, 
@@ -83,7 +132,8 @@ orez_vrstva()
 {
     vyska = valec_vyska+10;
     prumer = 2*valec_prumer;
-    translate([0,0,vyska/2+vyska_sroubovice])
+    translate([0,0,vyska_sroubovice])
+    translate([0,0,vyska/2])
     cylinder( 
         h = vyska, 
         r = prumer/2, 
@@ -109,6 +159,9 @@ orez_cylinder()
     }
 }
 
+// ------------------------------------------------------------------
+// spodek
+
 module
 spodni_dil_test()
 {
@@ -130,47 +183,28 @@ module
 spodni_dil()
 {
     difference() {
-        difference() {
-            union() {
-                spodni_valec();
-                translate([0,0,jogurt_vyska + tloustka_steny - 2.5])
-                sroub();
-            }
-            translate([0,0,tloustka_steny])jogurt();
-        }
-        rotate([0,180,0])vyhlazeni();
+        spodni_valec_se_sroubem();
+        translate([0,0,tloustka_steny])jogurt();
     }
 }
 
 module
-vyhlazeni() {
-    chamfer_cylinder_mask(
-        r = valec_prumer/2,
-        chamfer = 2,
-        $fn = smooth);
+spodni_valec_se_sroubem()
+{
+    union() {
+        spodni_valec_vyhlazeny();
+        translate([0,0,jogurt_vyska + tloustka_steny - sroubovice_od_horniho_dilu])
+        sroub();
+    }
 }
 
 module
-sroub()
+spodni_valec_vyhlazeny()
 {
-    metric_bolt(
-        size = zavit_prumer-1,
-        l = vyska_sroubovice-1,
-        headtype = "none",
-        pitch = vyska_zavitu,
-        details = true,
-        $fn = smooth );
-}
-
-module
-matice()
-{
-    metric_nut(
-        size = zavit_prumer, 
-        hole = true, 
-        pitch = vyska_zavitu,
-        details = true,
-        $fn = smooth );
+    difference() {
+        spodni_valec();
+        rotate([0,180,0])vyhlazeni();
+    }
 }
 
 module
@@ -182,6 +216,40 @@ spodni_valec()
         h = vyska, 
         r = valec_prumer/2, 
         center = true,
+        $fn = smooth );
+}
+
+module
+vyhlazeni() {
+    chamfer_cylinder_mask(
+        r = valec_prumer/2,
+        chamfer = 2,
+        $fn = smooth);
+}
+
+// ------------------------------------------------------------------
+// pomucky
+
+module
+matice()
+{
+    metric_nut(
+        size = zavit_prumer+zavit_volnost/2, 
+        hole = true, 
+        pitch = vyska_zavitu,
+        details = true,
+        $fn = smooth );
+}
+
+module
+sroub()
+{
+    metric_bolt(
+        size = zavit_prumer-zavit_volnost/2,
+        l = vyska_sroubovice,
+        headtype = "none",
+        pitch = vyska_zavitu,
+        details = true,
         $fn = smooth );
 }
 
