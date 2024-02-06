@@ -12,14 +12,14 @@ use <../libs/BOSL/masks.scad>
 // vlastní jogurt
 
 // Olma Klasik 2,7
-//jogurt_spodni_prumer = 50;
-//jogurt_horni_prumer = 70;
-//jogurt_vyska = 86;
+jogurt_spodni_prumer = 50;
+jogurt_horni_prumer = 70;
+jogurt_vyska = 86;
 
 // Albert bílý NATUR
-jogurt_spodni_prumer = 48;
-jogurt_horni_prumer = 78;
-jogurt_vyska = 90;
+// jogurt_spodni_prumer = 48;
+// jogurt_horni_prumer = 78;
+// jogurt_vyska = 90;
 
 // výsledný cylindr
 tloustka_steny = 5;
@@ -61,10 +61,10 @@ smooth = 256; // pro reálný tisk
 
 //translate([0,0,valec_vyska-tloustka_steny/2])rotate([180,0,0])
 //color("red",0.6)
-horni_dil();
+//horni_dil();
 
 //color("green",0.6)
-//spodni_dil();
+spodni_dil();
 
 //spodni_valec_se_sroubem();
 //spodni_dil_test();
